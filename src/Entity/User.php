@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MachineOutilRepository;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
-class MachineOutil
+class User
 {
     /**
      * @ORM\Id()
@@ -25,13 +26,17 @@ class MachineOutil
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
-
+    private $password;
+    
     /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"all"}, fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="MachineOutil", mappedBy="user", cascade={"persist"})
      */
-    private $user;
+    private $machineoutils;
 
+    public function _construct()
+    {
+        $this->machineoutils = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,34 +51,20 @@ class MachineOutil
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
-    public function getDescription()
+    public function getPassword()
     {
-        return $this->description;
+        return $this->password;
     }
 
-    public function setDescription($description)
+    public function setBiography($password)
     {
-        $this->description = $description;
-
-        return $this;
+        $this->password = $password;
     }
 
-    public function getUser()
+    public function getMachineOutils()
     {
-        return $this->user;
+        return $this->machineoutils;
     }
-
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-
-    // ... getter and setter methods
 }

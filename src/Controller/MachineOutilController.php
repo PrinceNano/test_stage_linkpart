@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\MachineOutil;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +24,7 @@ class MachineOutilController extends AbstractController
         $machineOutil = new MachineOutil();
         $machineOutil->setName('Test');
         $machineOutil->setDescription('Descriptiontest');
-        $machineOutil->setUser('Henry');
+        $machineOutil->setUser('2');
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($machineOutil);
