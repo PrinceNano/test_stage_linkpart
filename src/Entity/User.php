@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -29,7 +29,7 @@ class User
     private $password;
     
     /**
-     * @ORM\OneToMany(targetEntity="MachineOutil", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="MachineOutil", mappedBy="User", cascade={"persist"})
      */
     private $machineoutils;
 

@@ -4,47 +4,47 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\View;
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\MachineOutil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class MachineOutilController extends AbstractController
 {
-      /**
-     * @Get(
-     *     path = "/app_machineoutil/{id}",
+    /**
+     * * @Get(
+     *     path = "/machineoutil/{id}",
      *     name = "app_machineoutil_show",
      *     requirements = {"id"="\d+"}
      * )
-     * @View
+     * @Rest\Post("/machineoutil")
+     * @Rest\View(StatusCode = 201)
+     * @ParamConverter("machineOutil", converter="fos_rest.request_body")
      */
 
 
-     public function createMachineOutil(): Response
+     public function createMachineOutil(MachineOutil $machineOutil)
      {
-         // you can fetch the EntityManager via $this->getDoctrine()
-         // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
-         $entityManager = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-         $machineOutil = new MachineOutil();
-         $machineOutil->setName('Test');
-         $machineOutil->setDescription('Descriptiontest');
-         $machineOutil->setUser('2');
+        $em->persist($machineOutil);
+        $em->flush();
 
-         // tell Doctrine you want to (eventually) save the Product (no queries yet)
-         $entityManager->persist($machineOutil);
-
-         // actually executes the queries (i.e. the INSERT query)
-         $entityManager->flush();
-
-         return new Response('Saved new product with id '.$machineOutil->getId());
+        return $this->view($machineOutil, Response::HTTP_CREATED, ['Location' => $this->generateUrl('app_machineoutil_show', ['id' => $machineOutil->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
     }
 
-        public function showAction(MachineOutil $machineOutil)
+    public function showAction(MachineOutil $machineOutil)
     {
         return $machineOutil;
     }
+
+    //     public function showAction(MachineOutil $machineOutil)
+    // {
+    //     return $machineOutil;
+    // }
 
 }

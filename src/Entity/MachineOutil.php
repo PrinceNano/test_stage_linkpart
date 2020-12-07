@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 class MachineOutil
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -22,8 +22,8 @@ class MachineOutil
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
+  /**
+     * @ORM\Column(type="text")
      */
     private $description;
 
